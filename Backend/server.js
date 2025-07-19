@@ -3,22 +3,16 @@ const express = require('express');
 const dbConnect = require('./src/utils/dbConnect.js');
 const responseHandler = require('./src/middlewares/responseHandler.js');
 const authenticateToken = require('./src/middlewares/authToken.js');
-const cors = require('./src/middlewares/cors.js');
+const cors = require('cors');
 const logger = require('./src/middlewares/logger.js');
 const http = require('http');
 const { Server } = require('socket.io');
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: ['http://localhost:5173',"https://startup-sprint.onrender.com/"],
-        methods: ['GET', 'POST'],
-        credentials: true,
-    },
-})
+const io = new Server(server)
 
 app.use(express.json());
-app.use(cors);
+app.use(cors());
 app.use(logger);
 app.use(responseHandler);
 
